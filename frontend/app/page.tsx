@@ -103,7 +103,7 @@ export default function Home() {
       const formData = new FormData();
       formData.append("image", fileName);
 
-      const res = await fetch("http://localhost:3001/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`, {
         method: "POST",
         body: formData,
       });
@@ -142,7 +142,7 @@ export default function Home() {
     setImageLoading(true)
 
     try {
-      const url = `https://res.cloudinary.com/dfda8kpnc/image/upload/v1782809574/uploadPhoto/${req}.jpg`
+      const url = `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}/${req}.jpg`
       const res = await fetch(url, { method: 'HEAD' })
       if (res.ok) {
         notifySuccess("Image Found")
@@ -166,7 +166,7 @@ export default function Home() {
 
   const downloadImage = async (imageURL: string) => {
     setisDownloading(true)
-    const response = await fetch("http://localhost:3001/download", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
