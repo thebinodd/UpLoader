@@ -95,7 +95,7 @@ export default function Home() {
     setIsUploading(true)
     try {
       if (!fileName) {
-        setIsUploading(false) 
+        setIsUploading(false)
         notifyError("No File Selected!")
         return;
       }
@@ -103,22 +103,30 @@ export default function Home() {
       const formData = new FormData();
       formData.append("image", fileName);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`, {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`, {
+          method: "POST",
+          body: formData,
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (data.success) {
-        notifySuccess("File Uploaded Successfully!")
-        console.log((data.imageUrl.split("uploadPhoto/")[1]).split(".")[0])
-        setID((data.imageUrl.split("uploadPhoto/")[1]).split(".")[0])
-      }
-      else {
+        if (data.success) {
+          notifySuccess("File Uploaded Successfully!")
+          console.log((data.imageUrl.split("uploadPhoto/")[1]).split(".")[0])
+          setID((data.imageUrl.split("uploadPhoto/")[1]).split(".")[0])
+        }
+        else {
+          setIsUploading(false)
+          notifyError("Internal Server Error")
+
+        }
+
+      } catch (error) {
+
         setIsUploading(false)
-        notifyError("Internal Server Error")
-        
+        notifyError("Currently , The System is down !")
+
       }
 
 
@@ -208,7 +216,7 @@ export default function Home() {
       <p className="text-xs text-start w-[85vw] lg:w-[30vw] -mb-3 text-neutral-500">Note : Use 8 Character Code to Download your Image</p>
 
       <div className="input flex flex-row gap-2">
-        
+
         <input ref={inpRef} type="text" className="border-2 uppercase tracking-widest border-neutral-600 rounded-sm text-sm lg:text-md px-3 w-[65vw] lg:w-[20vw] md:w-[40vw] py-3 text-neutral-600" placeholder="eg. A6D8-LM10" name="" id="" />
         <button onClick={getImage} className="bg-[#F9FAFB] lg:w-[10vw] hover:bg-blue-300 w-[20vw] text-sm text-center border-blue-500 py-3 cursor-pointer border-2 rounded-sm  text-slate-500">Search</button>
       </div>
@@ -312,7 +320,7 @@ export default function Home() {
       }
 
 
-      <footer className=" absolute lg:bottom-5 bottom-10">
+      <footer className=" absolute lg:bottom-5 bottom-2">
 
         <h1 className="bg-neutral-50 px-10 py-2 lg:w-[50vw] text-sm lg:text-md lg:font-semibold text-center tracking-wide text-neutral-700 rounded-sm border-b-4  shadow-2xl">Designed and Developed with ❣️ by Binod</h1>
 
