@@ -14,6 +14,7 @@ export default function Home() {
   const [fileName, setfileName] = useState<File | null>(null)
   const [Preview, setPreview] = useState<string | null>(null);
   const [isDownloading, setisDownloading] = useState(false)
+  const [Ext, setExt] = useState("")
 
   const inpRef = useRef<HTMLInputElement>(null)
 
@@ -24,7 +25,7 @@ export default function Home() {
 
       // Styling
       style: {},
-      className: 'lg:w-[20vw] border-2 mt-5',
+      className: 'lg:w-[20vw] w-[90vw] border-2 mt-5',
 
       // Change colors of success/error/loading icon
       iconTheme: {
@@ -52,7 +53,7 @@ export default function Home() {
 
       // Styling
       style: {},
-      className: 'lg:w-[20vw] border-2 mt-5',
+      className: 'lg:w-[20vw] w-[90vw] border-2 mt-5',
 
       // Custom Icon
 
@@ -96,7 +97,7 @@ export default function Home() {
     try {
       if (!fileName) {
         setIsUploading(false)
-        notifyError("No File Selected!")
+        notifyError("No Images Selected!")
         return;
       }
 
@@ -112,9 +113,9 @@ export default function Home() {
         const data = await res.json();
 
         if (data.success) {
-          notifySuccess("File Uploaded Successfully!")
-          console.log((data.imageUrl.split("uploadPhoto/")[1]).split(".")[0])
+          notifySuccess("Image Uploaded Successfully!")
           setID((data.imageUrl.split("uploadPhoto/")[1]).split(".")[0])
+          setExt((data.imageUrl.split("uploadPhoto/")[1]).split(".")[1])
         }
         else {
           setIsUploading(false)
@@ -203,13 +204,14 @@ export default function Home() {
   };
 
   return (
-    <div className=" w-[99vw] bg-white h-screen flex  items-center flex-col gap-5 ">
-      <div><Toaster
+    <div className=" w-[99vw] bg-white h-screen flex  items-center flex-col lg:gap-5 gap-4 ">
+      <div>
+      <Toaster
         position="top-center"
         reverseOrder={false} /></div>
 
       <div className="nav w-[80vw] lg:mb-10 flex flex-row border-b-2 border-neutral-600   lg:justify-between justify-between lg:px-20 px-5 py-2">
-        <h1 className="lg:text-xl md:text-xl md:font-bold text-black tracking-widest text-sm font-semibold">UP LOADER</h1>
+        <a href="https://photo.binodlab.tech" className="lg:text-xl md:text-xl md:font-bold cursor-pointer text-black tracking-widest text-sm font-semibold">UP LOADER</a>
         <a className="font-semibold underline lg:text-lg md:text-md text-xs text-neutral-700" target="_blank" href="https://instagram.com/the_binodd">Developer</a>
       </div>
 
@@ -217,7 +219,7 @@ export default function Home() {
 
       <div className="input flex flex-row gap-2">
 
-        <input ref={inpRef} type="text" className="border-2 uppercase tracking-widest border-neutral-600 rounded-sm text-sm lg:text-md px-3 w-[65vw] lg:w-[20vw] md:w-[40vw] py-3 text-neutral-600" placeholder="eg. A6D8-LM10" name="" id="" />
+        <input ref={inpRef} type="text" className="border-2 uppercase tracking-widest border-neutral-600 rounded-sm text-[17px] lg:text-md px-3 w-[65vw] lg:w-[20vw] md:w-[40vw] py-3 text-neutral-600" placeholder="eg. A6D8-LM10" name="" id="" />
         <button onClick={getImage} className="bg-[#F9FAFB] lg:w-[10vw] hover:bg-blue-300 w-[20vw] text-sm text-center border-blue-500 py-3 cursor-pointer border-2 rounded-sm  text-slate-500">Search</button>
       </div>
 
@@ -316,13 +318,16 @@ export default function Home() {
       }
 
       {
-        searchPreview && <button onClick={() => downloadImage(searchPreview)} className="bg-[#F9FAFB] lg:w-[30vw] md:w-[50vw] w-[60vw] text-center hover:bg-blue-300 border-blue-500 py-2 cursor-pointer border-2 rounded-sm  text-slate-500">Download</button>
+        searchPreview  && <button onClick={() => downloadImage(searchPreview)} className="bg-[#F9FAFB] lg:w-[30vw] md:w-[50vw] w-[60vw] text-center hover:bg-blue-300 border-blue-500 py-2 cursor-pointer border-2 rounded-sm  text-slate-500">Download</button> 
+      }
+      {
+        isDownloading && <Spinner />
       }
 
 
-      <footer className=" absolute lg:bottom-5 bottom-2">
+      <footer className=" absolute lg:bottom-5 bottom-1">
 
-        <h1 className="bg-neutral-50 px-10 py-2 lg:w-[50vw] text-sm lg:text-md lg:font-semibold text-center tracking-wide text-neutral-700 rounded-sm border-b-4  shadow-2xl">Designed and Developed with ❣️ by Binod</h1>
+        <h1 className=" px-10 lg:py-2 py-1 lg:w-[50vw] text-xs lg:text-md lg:font-semibold text-center tracking-wide text-neutral-700 lg:rounded-sm lg:border-b-4 border-b-2  shadow-2xl">Designed and Developed with ❣️ by Binod</h1>
 
       </footer>
 
