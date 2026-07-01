@@ -174,7 +174,7 @@ export default function Home() {
 
   const downloadImage = async (imageURL: string) => {
     setisDownloading(true)
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/download`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
