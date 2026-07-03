@@ -11,7 +11,7 @@ const port = process.env.PORT
 const app = express()
 app.use(express.json());
 const corsOptions = {
-    origin: [process.env.FRONTEND_URL],
+    origin: [process.env.FRONTEND_URL , process.env.FRONTEND_DEV],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 };
