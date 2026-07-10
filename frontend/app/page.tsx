@@ -203,6 +203,15 @@ export default function Home() {
     setisDownloading(false)
   };
 
+  const copyCode = () => {
+    if (ID) {
+      navigator.clipboard.writeText(ID);
+      notifySuccess("Code Copied to Clipboard!")
+    } else {
+      notifyError("No Code to Copy!")
+    }
+  }
+
   return (
     <div className=" w-[99vw] bg-white h-screen flex  items-center flex-col lg:gap-5 gap-4 ">
       <div>
@@ -210,17 +219,17 @@ export default function Home() {
         position="top-center"
         reverseOrder={false} /></div>
 
-      <div className="nav w-[80vw] lg:mb-10 flex flex-row border-b-2 border-neutral-600   lg:justify-between justify-between lg:px-20 px-5 py-2">
-        <a href="https://photo.binodlab.tech" className="lg:text-xl md:text-xl md:font-bold cursor-pointer text-black tracking-widest text-sm font-semibold">UP LOADER</a>
-        <a className="font-semibold underline lg:text-lg md:text-md text-xs text-neutral-700" target="_blank" href="https://instagram.com/the_binodd">Developer</a>
+      <div className="nav w-[80vw] lg:mb-2 flex flex-row border-b-2 border-neutral-600   lg:justify-between justify-between lg:px-20 px-5 py-2">
+        <a href="https://photo.binodlab.tech" className="lg:text-sm md:text-xl md:font-bold cursor-pointer text-black tracking-widest text-sm font-semibold">UP LOADER</a>
+        <a className="font-semibold underline  md:text-md text-xs text-neutral-700" target="_blank" href="https://instagram.com/the_binodd">Developer</a>
       </div>
 
-      <p className="text-xs text-start w-[85vw] lg:w-[30vw] -mb-3 text-neutral-500">Note : Use 8 Character Code to Download your Image</p>
+      <p className="text-xs text-start w-[85vw] md:w-[60vw] lg:w-[30vw] -mb-3 text-neutral-500">Note : Use 8 Character Code to Download your Image</p>
 
-      <div className="input flex flex-row gap-2">
+      <div className="input flex flex-row gap-1">
 
-        <input ref={inpRef} type="text" className="border-2 uppercase tracking-widest border-neutral-600 rounded-sm text-[17px] lg:text-md px-3 w-[65vw] lg:w-[20vw] md:w-[40vw] py-3 text-neutral-600" placeholder="eg. A6D8-LM10" name="" id="" />
-        <button onClick={getImage} className="bg-[#F9FAFB] lg:w-[10vw] hover:bg-blue-300 w-[20vw] text-sm text-center border-blue-500 py-3 cursor-pointer border-2 rounded-sm  text-slate-500">Search</button>
+        <input ref={inpRef} type="text" className="border-2 uppercase tracking-widest border-neutral-600 rounded-sm text-[17px]  lg:text-xs  px-3 w-[65vw] lg:w-[20vw] md:w-[40vw] py-2 text-neutral-600" placeholder="eg. A6D8-LM10" name="" id="" />
+        <button onClick={getImage} className="bg-[#F9FAFB] lg:w-[10vw] hover:bg-blue-300 w-[20vw] text-xs text-center border-blue-500 py-2cursor-pointer border-2 rounded-sm  text-slate-500">Search</button>
       </div>
 
 
@@ -250,7 +259,7 @@ export default function Home() {
                   {
                     Preview && <div className="preview overflow-hidden px-5 py-5 h-full flex justify-center items-center w-[50vw] lg:w-[60vw]">
 
-                      <img src={Preview} className=" max-h-[29vh] lg:max-w-[40vw]  max-w-[80vw] rounded-md " alt="" />
+                      <img src={Preview} className=" max-h-[29vh]  lg:max-w-[30vw] px-2 max-w-[80vw] rounded-md " alt="" />
 
 
                     </div>
@@ -308,26 +317,28 @@ export default function Home() {
 
 
       {
-        isUploading ? <div className="spin mt-20"><Spinner /></div> : !isUploading && !searchPreview && !ID && <button onClick={sendImage} className="bg-[#F9FAFB] lg:w-[10vw] md:w-[50vw] w-[90vw] text-center border-blue-500  hover:bg-blue-300 py-2 cursor-pointer border-2 rounded-sm  text-slate-500">Upload</button>
+        isUploading ? <div className="spin mt-20"><Spinner /></div> : !isUploading && !searchPreview && !ID && <button onClick={sendImage} className="bg-[#F9FAFB] lg:w-[10vw] md:w-[50vw] w-[90vw] text-center text-xs border-blue-500  hover:bg-blue-300 py-2 cursor-pointer border-2 rounded-sm  text-slate-500">Upload</button>
       }
 
 
 
       {
-        ID && <h1 className="text-black font-semibold flex flex-col gap-2 justify-center items-center tracking-wider">Use The Code <span className="font-bold tracking-widest text-lg bg-neutral-800 text-white px-10 py-2">{`${ID}`}</span><span className="text-black font-semibold flex flex-col justify-center items-center tracking-wider">to download this Image</span></h1>
+        ID && <div className="">
+          <h1 className="text-black font-semibold flex flex-col gap-2 justify-center items-center tracking-wider">Use The Code <span className="font-bold tracking-widest text-sm bg-neutral-800 text-white px-10 py-2">{`${ID}`}</span><span className="text-black font-semibold text-xs flex flex-col justify-center items-center tracking-wider">to download this Image</span></h1><button onClick={() => copyCode()} className="bg-[#F9FAFB] lg:w-[20vw] mt-5 md:w-[20vw] w-[30vw] text-xs text-center hover:bg-green-300 border-green-500 py-2 cursor-pointer border-2 rounded-sm  text-slate-500">Copy Code</button>
+        </div>
       }
 
       {
-        searchPreview  && <button onClick={() => downloadImage(searchPreview)} className="bg-[#F9FAFB] lg:w-[30vw] md:w-[50vw] w-[60vw] text-center hover:bg-blue-300 border-blue-500 py-2 cursor-pointer border-2 rounded-sm  text-slate-500">Download</button> 
-      }
+        searchPreview  && <button onClick={() => downloadImage(searchPreview)} className="bg-[#F9FAFB] lg:w-[30vw] md:w-[50vw] w-[60vw] text-center hover:bg-blue-300 border-blue-500 py-2 text-xs cursor-pointer border-2 rounded-sm  text-slate-500">Download</button> 
+      } 
       {
         isDownloading && <Spinner />
       }
 
 
-      <footer className=" absolute lg:bottom-5 bottom-1">
+      <footer className=" absolute bottom-0 mb-1">
 
-        <h1 className=" px-10 lg:py-2 py-1 lg:w-[50vw] text-xs lg:text-md lg:font-semibold text-center tracking-wide text-neutral-700 lg:rounded-sm lg:border-b-4 border-b-2  shadow-2xl">Designed and Developed with ❣️ by Binod</h1>
+        <h1 className=" px-10 lg:py-2 py-1 lg:w-[50vw] text-xs lg:text-xs lg:font-semibold text-center tracking-wide text-neutral-700 lg:rounded-sm lg:border-b-4 border-b-2  shadow-2xl">Designed and Developed with ❣️ by Binod</h1>
 
       </footer>
 
